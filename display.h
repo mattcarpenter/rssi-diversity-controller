@@ -9,6 +9,7 @@ class Display {
     Display();
     ~Display();
     void drawCycle();
+    void setRSSI(int channel, int rawValue);
   private:
     U8GLIB_ST7920_128X64_4X *u8g;
     void draw();
