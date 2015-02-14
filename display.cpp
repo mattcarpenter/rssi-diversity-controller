@@ -26,7 +26,7 @@
  *
  * @constructor
  */
- 
+
 Display::Display() {
   u8g = new U8GLIB_ST7920_128X64_4X(10);
 }
@@ -38,31 +38,53 @@ Display::~Display() {
   }
 }
 
-void Display::setRSSI(int channel, int rawValue) {
+void Display::updateChannel(uint8_t channel, uint8_t rawValue, boolean active) {
   
 }
 
 void Display::drawCycle() {
   u8g->firstPage();
   do {
-    draw();
+    drawChrome();
+    drawText();
   } while (u8g->nextPage());
 }
 
-void Display::draw() {
-  u8g->setFontPosTop();
+void Display::drawChrome() {
   u8g->setColorIndex(1);
-  u8g->drawBox(0, 0, 128, 20);
+  
+  // Draw channel ID boxes
+  u8g->drawBox(12, 0, 21, 17);
+  u8g->drawBox(12, 18, 21, 17);
+  u8g->drawBox(12, 36, 21, 17);
+  
+  // Draw RSSI bar frames
+  u8g->drawFrame(34, 0, 94, 17);
+  u8g->drawFrame(34, 18, 94, 17);
+  u8g->drawFrame(34, 36, 94, 17);
+}
+
+void Display::drawText() {
   u8g->setColorIndex(0);
-  u8g->setFont(u8g_font_04b_03b);
-  u8g->drawStr(2, 6, "RSSI           RSSI           RSSI");
+  
+  // Channel numbers
   u8g->setFont(u8g_font_6x10);
-  u8g->setColorIndex(0);
-  u8g->drawStr( 1, 15, "CH1      CH2      CH3");
+  u8g->drawStr( 14, 12, "CH1");
+  u8g->drawStr( 14, 30, "CH2");
+  u8g->drawStr( 14, 48, "CH3");
+  
+  // RSSI %
+  u8g->setFont(u8g_font_9x15);
   u8g->setColorIndex(1);
-  u8g->drawLine(34, 0, 34, 40);
-  u8g->drawLine(89, 0, 89, 40);
-  u8g->drawLine(0, 40, 196, 40);
-  u8g->drawStr( 1, 30, " 0%       0%      0%");
-  u8g->setFont(u8g_font_6x10);
+  u8g->drawStr( 36, 14, "100%");
+  u8g->drawStr( 36, 32, "75%");
+  u8g->drawStr( 36, 50, "20%");
+  
+  // Footer
+  u8g->setFont(u8g_font_04b_03r);
+  u8g->drawStr(14, 62, "RSSI Diversity Controller");
+}
+
+void Display::drawBars() {
+  
 }

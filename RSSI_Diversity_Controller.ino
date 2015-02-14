@@ -24,7 +24,7 @@
 Display display;
 
 void setup () {
-  
+  Serial.begin(9600);
 }
 
 
