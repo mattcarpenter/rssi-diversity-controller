@@ -31,6 +31,10 @@ Display::Display() {
   u8g = new U8GLIB_ST7920_128X64_4X(10);
 }
 
+/**
+ * @destructor
+ */
+ 
 Display::~Display() {
   if (NULL != u8g) {
     delete u8g;
@@ -38,18 +42,35 @@ Display::~Display() {
   }
 }
 
+/**
+ * Updates a channel in the view model
+ *
+ * @param {uint8_t} channel  Channel number to update
+ * @param {uint8_t} rawValue Raw RSSI value
+ * @param {boolean} active   Indicates whether or not this is the active channel
+ */
+ 
 void Display::updateChannel(uint8_t channel, uint8_t rawValue, boolean active) {
   
 }
 
+/**
+ * Draw cycle routine
+ */
+ 
 void Display::drawCycle() {
   u8g->firstPage();
   do {
     drawChrome();
     drawText();
+    drawIndicators();
   } while (u8g->nextPage());
 }
 
+/**
+ * Paints boxes and frames for segmenting information
+ */
+ 
 void Display::drawChrome() {
   u8g->setColorIndex(1);
   
@@ -64,6 +85,10 @@ void Display::drawChrome() {
   u8g->drawFrame(34, 36, 94, 17);
 }
 
+/**
+ * Paints channel indicator and RSSI value text
+ */
+ 
 void Display::drawText() {
   u8g->setColorIndex(0);
   
@@ -85,6 +110,11 @@ void Display::drawText() {
   u8g->drawStr(14, 62, "RSSI Diversity Controller");
 }
 
-void Display::drawBars() {
-  
+/**
+ * Paints strength bar indicators and active channel decorator
+ */
+ 
+void Display::drawIndicators() {
+  u8g->setColorIndex(1);
+  u8g->drawTriangle(2,2, 10,8, 2,16);
 }

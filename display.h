@@ -39,7 +39,7 @@ class Display {
     
     void drawChrome();
     void drawText();
-    void drawBars();
+    void drawIndicators();
 };
 
 #endif
