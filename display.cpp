@@ -129,14 +129,15 @@ void Display::drawText() {
  */
  
 void Display::drawIndicators() {
+  int yOffset = (_activeChannel * 19) - (_activeChannel == 2 ? 1 : 0); 
+ 
   u8g->setColorIndex(1);
   
   // Active channel decorator
-  u8g->drawTriangle(2,0, 10,8, 2,16);
+  u8g->drawTriangle(2, yOffset, 10, 8 + yOffset, 2, 16 + yOffset);
   
   // Strength bars
-  // Max width 53 pixels
-  u8g->drawBox(73, 2, (_rawValues[0] *53 / 100), 13);
-  u8g->drawBox(73, 20, (_rawValues[1] *53 / 100), 13);
-  u8g->drawBox(73, 38, (_rawValues[2] *53 / 100), 13);
+  u8g->drawBox(73, 2, (_rawValues[0] * 53 / 100), 13);
+  u8g->drawBox(73, 20, (_rawValues[1] * 53 / 100), 13);
+  u8g->drawBox(73, 38, (_rawValues[2] * 53 / 100), 13);
 }
