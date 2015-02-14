@@ -51,7 +51,8 @@ Display::~Display() {
  */
  
 void Display::updateChannel(uint8_t channel, uint8_t rawValue, boolean active) {
-  
+  _rawValues[channel] = rawValue;
+  _activeChannel = (active ? channel : _activeChannel);
 }
 
 /**
@@ -116,5 +117,12 @@ void Display::drawText() {
  
 void Display::drawIndicators() {
   u8g->setColorIndex(1);
-  u8g->drawTriangle(2,2, 10,8, 2,16);
+  
+  // Active channel decorator
+  u8g->drawTriangle(2,0, 10,8, 2,16);
+  
+  // Strength bars
+  u8g->drawBox(73, 2, 53, 13);
+  u8g->drawBox(73, 20, 37, 13);
+  u8g->drawBox(73, 38, 10, 13);
 }
