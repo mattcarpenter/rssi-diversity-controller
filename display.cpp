@@ -29,6 +29,8 @@
 
 Display::Display() {
   u8g = new U8GLIB_ST7920_128X64_4X(10);
+  int _rawValues[3] = {0};
+  int _activeChannel = 0;
 }
 
 /**
@@ -91,6 +93,11 @@ void Display::drawChrome() {
  */
  
 void Display::drawText() {
+  String ch1 = String(_rawValues[0]) + "%";
+  String ch2 = String(_rawValues[1]) + "%";
+  String ch3 = String(_rawValues[2]) + "%";
+  char buffer[5];
+  
   u8g->setColorIndex(0);
   
   // Channel numbers
@@ -102,9 +109,15 @@ void Display::drawText() {
   // RSSI %
   u8g->setFont(u8g_font_9x15);
   u8g->setColorIndex(1);
-  u8g->drawStr( 36, 14, "100%");
-  u8g->drawStr( 36, 32, "75%");
-  u8g->drawStr( 36, 50, "20%");
+  
+  ch1.toCharArray(buffer,5);
+  u8g->drawStr( 36, 14, buffer);
+  
+  ch2.toCharArray(buffer, 5);
+  u8g->drawStr( 36, 32, buffer);
+  
+  ch3.toCharArray(buffer, 5);
+  u8g->drawStr( 36, 50, buffer);
   
   // Footer
   u8g->setFont(u8g_font_04b_03r);
@@ -122,7 +135,8 @@ void Display::drawIndicators() {
   u8g->drawTriangle(2,0, 10,8, 2,16);
   
   // Strength bars
-  u8g->drawBox(73, 2, 53, 13);
-  u8g->drawBox(73, 20, 37, 13);
-  u8g->drawBox(73, 38, 10, 13);
+  // Max width 53 pixels
+  u8g->drawBox(73, 2, (_rawValues[0] *53 / 100), 13);
+  u8g->drawBox(73, 20, (_rawValues[1] *53 / 100), 13);
+  u8g->drawBox(73, 38, (_rawValues[2] *53 / 100), 13);
 }

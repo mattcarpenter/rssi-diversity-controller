@@ -24,7 +24,8 @@
 Display display;
 
 void setup () {
-
+  display.updateChannel(0, 100, false);
+  display.updateChannel(1, 90, false);
 }
 
 
